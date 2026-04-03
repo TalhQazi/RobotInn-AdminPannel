@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Moon, Sun, Bell, Shield, User } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
 const SettingsPage = () => {
   const { adminName } = useAuth();
-  const [darkMode, setDarkMode] = useState(true);
+  const { theme, setTheme } = useTheme();
   const [emailNotifs, setEmailNotifs] = useState(true);
   const [pushNotifs, setPushNotifs] = useState(true);
+
+  const isDark = theme === 'dark';
 
   return (
     <div className="space-y-6 max-w-2xl">
@@ -33,7 +36,7 @@ const SettingsPage = () => {
       {/* Appearance */}
       <div className="glass rounded-xl p-5 animate-fade-up">
         <div className="flex items-center gap-3 mb-4">
-          {darkMode ? <Moon className="h-5 w-5 text-primary" /> : <Sun className="h-5 w-5 text-secondary" />}
+          {isDark ? <Moon className="h-5 w-5 text-primary" /> : <Sun className="h-5 w-5 text-secondary" />}
           <h3 className="text-lg font-semibold text-foreground">Appearance</h3>
         </div>
         <div className="flex items-center justify-between">
@@ -41,9 +44,9 @@ const SettingsPage = () => {
             <p className="text-sm font-medium text-foreground">Dark Mode</p>
             <p className="text-xs text-muted-foreground">Use dark theme across the dashboard</p>
           </div>
-          <button onClick={() => setDarkMode(!darkMode)}
-            className={`relative w-12 h-6 rounded-full transition-colors ${darkMode ? 'bg-primary' : 'bg-muted'}`}>
-            <div className={`absolute top-0.5 h-5 w-5 rounded-full bg-foreground transition-transform ${darkMode ? 'left-6' : 'left-0.5'}`} />
+          <button onClick={() => setTheme(isDark ? 'light' : 'dark')}
+            className={`relative w-12 h-6 rounded-full transition-colors ${isDark ? 'bg-primary' : 'bg-muted'}`}>
+            <div className={`absolute top-0.5 h-5 w-5 rounded-full bg-foreground transition-transform ${isDark ? 'left-6' : 'left-0.5'}`} />
           </button>
         </div>
       </div>

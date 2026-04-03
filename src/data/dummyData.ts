@@ -29,9 +29,15 @@ export interface Product {
   title: string;
   description: string;
   price: number;
+  costPrice?: number;
   image: string;
   category: string;
   active: boolean;
+  offer?: {
+    type: 'percentage' | 'fixed';
+    value: number;
+    validUntil?: string;
+  };
 }
 
 export interface Bill {

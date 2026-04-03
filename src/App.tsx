@@ -16,8 +16,7 @@ import MessagesPage from "@/pages/MessagesPage";
 import LocationsPage from "@/pages/LocationsPage";
 import SettingsPage from "@/pages/SettingsPage";
 import NotFound from "./pages/NotFound.tsx";
-import "./index.css";
-import "./App.css";
+
 
 const queryClient = new QueryClient();
 

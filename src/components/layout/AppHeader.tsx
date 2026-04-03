@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Bell, Search, Menu, X } from 'lucide-react';
+import { Bell, Search, Menu } from 'lucide-react';
 import { notifications as initialNotifications } from '@/data/dummyData';
 import { useAuth } from '@/context/AuthContext';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -52,23 +53,33 @@ const AppHeader = ({ onMenuClick, searchQuery, setSearchQuery }: HeaderProps) =>
           </button>
 
           {showNotifications && (
-            <div className="absolute right-0 top-12 w-80 glass rounded-xl border border-border shadow-2xl animate-scale-in overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-                <h3 className="font-semibold text-sm text-foreground">Notifications</h3>
-                <button onClick={markAllRead} className="text-xs text-primary hover:underline">Mark all read</button>
+            <>
+              {/* Overlay - closes dropdown when clicking outside */}
+              <div 
+                className="fixed inset-0 z-40"
+                onClick={() => setShowNotifications(false)}
+              />
+              <div className="absolute right-0 top-12 w-80 bg-[#1a2230] rounded-xl border border-border shadow-2xl animate-scale-in overflow-hidden z-50">
+                <div className="flex items-center justify-between px-4 py-3 border-b border-border">
+                  <h3 className="font-semibold text-sm text-foreground">Notifications</h3>
+                  <button onClick={markAllRead} className="text-xs text-primary hover:underline">Mark all read</button>
+                </div>
+                <div className="max-h-64 overflow-y-auto scrollbar-thin">
+                  {notifs.map((n) => (
+                    <div key={n.id} className={`px-4 py-3 border-b border-border/50 hover:bg-muted/30 transition-colors ${!n.read ? 'bg-primary/5' : ''}`}>
+                      <p className="text-sm font-medium text-foreground">{n.title}</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">{n.message}</p>
+                      <p className="text-xs text-muted-foreground mt-1">{n.time}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="max-h-64 overflow-y-auto scrollbar-thin">
-                {notifs.map((n) => (
-                  <div key={n.id} className={`px-4 py-3 border-b border-border/50 hover:bg-muted/30 transition-colors ${!n.read ? 'bg-primary/5' : ''}`}>
-                    <p className="text-sm font-medium text-foreground">{n.title}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">{n.message}</p>
-                    <p className="text-xs text-muted-foreground mt-1">{n.time}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+            </>
           )}
         </div>
+
+        {/* Theme Toggle */}
+        <ThemeToggle />
 
         {/* Admin */}
         <div className="flex items-center gap-2">

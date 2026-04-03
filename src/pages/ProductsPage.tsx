@@ -1,18 +1,87 @@
-import { useState } from 'react';
-import { Plus, Edit2, Trash2, X } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Plus, Edit2, Trash2, X, Check } from 'lucide-react';
 import { products as initialProducts, Product } from '@/data/dummyData';
 
-const emptyProduct: Omit<Product, 'id'> = { title: '', description: '', price: 0, image: '🍽️', category: '', active: true };
+const emptyProduct: Omit<Product, 'id'> = { 
+  title: '', 
+  description: '', 
+  price: 0, 
+  costPrice: 0,
+  image: '🍽️', 
+  category: '', 
+  active: true,
+  offer: undefined
+};
 
 const ProductsPage = () => {
   const [productsList, setProductsList] = useState<Product[]>(initialProducts);
   const [showForm, setShowForm] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
+  // Inline editing states
+  const [editingTitleId, setEditingTitleId] = useState<string | null>(null);
+  const [editingPriceId, setEditingPriceId] = useState<string | null>(null);
+  const [editTitle, setEditTitle] = useState('');
+  const [editPrice, setEditPrice] = useState('');
   const [form, setForm] = useState(emptyProduct);
+
+  const titleInputRef = useRef<HTMLInputElement>(null);
+  const priceInputRef = useRef<HTMLInputElement>(null);
 
   const openNew = () => { setForm(emptyProduct); setEditId(null); setShowForm(true); };
   const openEdit = (p: Product) => { setForm(p); setEditId(p.id); setShowForm(true); };
   const deleteProduct = (id: string) => setProductsList(productsList.filter(p => p.id !== id));
+
+  // Inline editing functions
+  const startEditingTitle = (product: Product) => {
+    setEditingTitleId(product.id);
+    setEditTitle(product.title);
+    setTimeout(() => titleInputRef.current?.focus(), 0);
+  };
+
+  const startEditingPrice = (product: Product) => {
+    setEditingPriceId(product.id);
+    setEditPrice(product.price.toString());
+    setTimeout(() => priceInputRef.current?.focus(), 0);
+  };
+
+  const saveTitleEdit = (id: string) => {
+    if (editTitle.trim()) {
+      setProductsList(productsList.map(p => p.id === id ? { ...p, title: editTitle.trim() } : p));
+    }
+    setEditingTitleId(null);
+  };
+
+  const savePriceEdit = (id: string) => {
+    const price = parseFloat(editPrice);
+    if (!isNaN(price) && price >= 0) {
+      setProductsList(productsList.map(p => p.id === id ? { ...p, price } : p));
+    }
+    setEditingPriceId(null);
+  };
+
+  const handleTitleKeyDown = (e: React.KeyboardEvent, id: string) => {
+    if (e.key === 'Enter') saveTitleEdit(id);
+    if (e.key === 'Escape') setEditingTitleId(null);
+  };
+
+  const handlePriceKeyDown = (e: React.KeyboardEvent, id: string) => {
+    if (e.key === 'Enter') savePriceEdit(id);
+    if (e.key === 'Escape') setEditingPriceId(null);
+  };
+
+  // Click outside to save
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (editingTitleId && titleInputRef.current && !titleInputRef.current.contains(e.target as Node)) {
+        saveTitleEdit(editingTitleId);
+      }
+      if (editingPriceId && priceInputRef.current && !priceInputRef.current.contains(e.target as Node)) {
+        savePriceEdit(editingPriceId);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [editingTitleId, editingPriceId, editTitle, editPrice]);
 
   const handleSave = () => {
     if (!form.title) return;
@@ -37,10 +106,60 @@ const ProductsPage = () => {
         {productsList.map((product, i) => (
           <div key={product.id} className="glass rounded-xl p-5 card-hover animate-fade-up" style={{ animationDelay: `${i * 0.05}s` }}>
             <div className="text-4xl mb-3">{product.image}</div>
-            <h3 className="text-foreground font-semibold">{product.title}</h3>
+            
+            {/* Editable Title */}
+            {editingTitleId === product.id ? (
+              <div className="flex items-center gap-2">
+                <input
+                  ref={titleInputRef}
+                  value={editTitle}
+                  onChange={e => setEditTitle(e.target.value)}
+                  onKeyDown={e => handleTitleKeyDown(e, product.id)}
+                  className="flex-1 px-2 py-1 bg-muted/50 border border-primary/50 rounded text-foreground font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+                />
+                <button onClick={() => saveTitleEdit(product.id)} className="text-primary hover:text-primary/80">
+                  <Check className="h-4 w-4" />
+                </button>
+              </div>
+            ) : (
+              <h3 
+                onClick={() => startEditingTitle(product)}
+                className="text-foreground font-semibold cursor-pointer hover:text-primary transition-colors group flex items-center gap-2"
+              >
+                {product.title}
+                <Edit2 className="h-3 w-3 opacity-0 group-hover:opacity-50" />
+              </h3>
+            )}
+            
             <p className="text-sm text-muted-foreground mt-1">{product.description}</p>
+            
             <div className="flex items-center justify-between mt-3">
-              <span className="text-lg font-bold gradient-text-primary">Rs {product.price}</span>
+              {/* Editable Price */}
+              {editingPriceId === product.id ? (
+                <div className="flex items-center gap-2">
+                  <span className="text-lg font-bold text-muted-foreground">Rs</span>
+                  <input
+                    ref={priceInputRef}
+                    type="number"
+                    value={editPrice}
+                    onChange={e => setEditPrice(e.target.value)}
+                    onKeyDown={e => handlePriceKeyDown(e, product.id)}
+                    className="w-24 px-2 py-1 bg-muted/50 border border-primary/50 rounded text-foreground font-bold text-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  />
+                  <button onClick={() => savePriceEdit(product.id)} className="text-primary hover:text-primary/80">
+                    <Check className="h-4 w-4" />
+                  </button>
+                </div>
+              ) : (
+                <span 
+                  onClick={() => startEditingPrice(product)}
+                  className="text-lg font-bold gradient-text-primary cursor-pointer hover:opacity-80 transition-opacity group flex items-center gap-2"
+                >
+                  Rs {product.price}
+                  <Edit2 className="h-3 w-3 opacity-0 group-hover:opacity-50" />
+                </span>
+              )}
+              
               <span className={`text-xs px-2 py-1 rounded-full ${product.active ? 'bg-primary/20 text-primary' : 'bg-muted text-muted-foreground'}`}>
                 {product.active ? 'Active' : 'Inactive'}
               </span>

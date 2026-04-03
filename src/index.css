@@ -4,6 +4,7 @@
 
 @layer base {
   :root {
+    /* Dark mode (default) */
     --background: 222 47% 11%;
     --foreground: 210 40% 98%;
 
@@ -50,6 +51,54 @@
     --gradient-primary: linear-gradient(135deg, #2EC4B6, #4ECDC4);
     --gradient-secondary: linear-gradient(135deg, #FF8C42, #FFB347);
     --gradient-bg: linear-gradient(135deg, hsl(222 47% 11%), hsl(217 33% 15%));
+  }
+
+  .light {
+    /* Light mode */
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 174 56% 47%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 27 100% 63%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 20% 45%;
+
+    --accent: 174 40% 90%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 174 56% 47%;
+
+    --sidebar-background: 220 20% 95%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 174 56% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 20% 90%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 220 20% 85%;
+    --sidebar-ring: 174 56% 40%;
+
+    --glass: 222 47% 11% / 0.05;
+    --glass-border: 222 47% 11% / 0.1;
+    --glass-hover: 222 47% 11% / 0.08;
+
+    --gradient-primary: linear-gradient(135deg, #2EC4B6, #4ECDC4);
+    --gradient-secondary: linear-gradient(135deg, #FF8C42, #FFB347);
+    --gradient-bg: linear-gradient(135deg, hsl(0 0% 100%), hsl(210 40% 96%));
   }
 }
 

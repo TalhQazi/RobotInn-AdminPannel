@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Bot, Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 
 const Login = () => {
   const [email, setEmail] = useState('admin@robotinn.com');
@@ -25,9 +25,7 @@ const Login = () => {
       <div className="w-full max-w-md animate-scale-in">
         <div className="glass rounded-2xl p-8 shadow-2xl">
           <div className="flex flex-col items-center mb-8">
-            <div className="h-16 w-16 rounded-2xl gradient-primary flex items-center justify-center mb-4 shadow-lg">
-              <Bot className="h-8 w-8 text-primary-foreground" />
-            </div>
+            <img src="/logo.png" alt="RobotInn" className="h-16 w-auto object-contain mb-4" />
             <h1 className="text-2xl font-bold gradient-text-primary">RobotInn Admin</h1>
             <p className="text-muted-foreground text-sm mt-1">Sign in to your dashboard</p>
           </div>

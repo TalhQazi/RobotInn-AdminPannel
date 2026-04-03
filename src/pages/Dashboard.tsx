@@ -1,4 +1,4 @@
-import { Users, Bike, ShoppingBag, DollarSign, TrendingUp, TrendingDown } from 'lucide-react';
+import { Users, Bike, ShoppingBag, DollarSign, TrendingUp, TrendingDown, CreditCard, Clock } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { users, orders, chartData, activityLogs } from '@/data/dummyData';
 
@@ -7,6 +7,8 @@ const statCards = [
   { title: 'Total Riders', value: users.filter(u => u.type === 'rider').length.toString(), icon: Bike, change: '+5%', up: true, gradient: 'gradient-secondary' },
   { title: 'Total Orders', value: orders.length.toString(), icon: ShoppingBag, change: '+18%', up: true, gradient: 'gradient-primary' },
   { title: 'Revenue', value: `Rs ${(orders.reduce((a, o) => a + o.total, 0) / 1000).toFixed(1)}K`, icon: DollarSign, change: '+24%', up: true, gradient: 'gradient-secondary' },
+  { title: 'Total Expenses', value: 'Rs 12.5K', icon: CreditCard, change: '-8%', up: false, gradient: 'gradient-primary' },
+  { title: 'Pending Orders', value: orders.filter(o => o.status === 'pending').length.toString(), icon: Clock, change: '+3%', up: true, gradient: 'gradient-secondary' },
 ];
 
 const Dashboard = () => {
@@ -18,7 +20,7 @@ const Dashboard = () => {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {statCards.map((card, i) => (
           <div key={i} className="glass rounded-xl p-5 card-hover animate-fade-up" style={{ animationDelay: `${i * 0.1}s` }}>
             <div className="flex items-center justify-between mb-3">

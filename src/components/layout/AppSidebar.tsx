@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, Users, ShoppingBag, Package, DollarSign,
-  FileText, MessageSquare, MapPin, Settings, ChevronLeft, ChevronRight, LogOut, Bot
+  FileText, MessageSquare, MapPin, Settings, ChevronLeft, ChevronRight, LogOut
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
@@ -43,8 +43,8 @@ const AppSidebar = ({ collapsed, setCollapsed, mobileOpen, setMobileOpen }: Side
           ${mobileOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}
       >
         {/* Logo */}
-        <div className="h-16 flex items-center px-4 border-b border-sidebar-border">
-          <Bot className="h-8 w-8 text-primary flex-shrink-0" />
+        <div className="h-20 flex items-center px-4 border-b border-sidebar-border">
+          <img src="/logo.png" alt="RobotInn" className="h-16 w-auto object-contain flex-shrink-0" />
           {!collapsed && (
             <span className="ml-3 text-lg font-bold gradient-text-primary">RobotInn</span>
           )}
