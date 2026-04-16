@@ -6,15 +6,16 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import Login from "@/pages/Login";
-import Dashboard from "@/pages/Dashboard";
-import UsersPage from "@/pages/UsersPage";
-import OrdersPage from "@/pages/OrdersPage";
-import ProductsPage from "@/pages/ProductsPage";
-import RevenuePage from "@/pages/RevenuePage";
-import BillsPage from "@/pages/BillsPage";
-import MessagesPage from "@/pages/MessagesPage";
-import LocationsPage from "@/pages/LocationsPage";
-import SettingsPage from "@/pages/SettingsPage";
+import Dashboard from '@/pages/Dashboard';
+import UsersPage from '@/pages/UsersPage';
+import AreasPage from '@/pages/AreasPage';
+import OrdersPage from '@/pages/OrdersPage';
+import ProductsPage from '@/pages/ProductsPage';
+import RevenuePage from '@/pages/RevenuePage';
+import BillsPage from '@/pages/BillsPage';
+import MessagesPage from '@/pages/MessagesPage';
+import LocationsPage from '@/pages/LocationsPage';
+import SettingsPage from '@/pages/SettingsPage';
 import NotFound from "./pages/NotFound.tsx";
 
 
@@ -35,6 +36,7 @@ const AppRoutes = () => {
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<Dashboard />} />
         <Route path="/users" element={<UsersPage />} />
+        <Route path="/areas" element={<AreasPage />} />
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/revenue" element={<RevenuePage />} />

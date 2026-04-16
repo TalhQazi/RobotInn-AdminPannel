@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
-  LayoutDashboard, Users, ShoppingBag, Package, DollarSign,
+  LayoutDashboard, Users, MapPinned, ShoppingBag, Package, DollarSign,
   FileText, MessageSquare, MapPin, Settings, ChevronLeft, ChevronRight, LogOut
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
@@ -9,6 +9,7 @@ import { useAuth } from '@/context/AuthContext';
 const menuItems = [
   { title: 'Dashboard', icon: LayoutDashboard, path: '/' },
   { title: 'Users', icon: Users, path: '/users' },
+  { title: 'Areas', icon: MapPinned, path: '/areas' },
   { title: 'Orders', icon: ShoppingBag, path: '/orders' },
   { title: 'Products', icon: Package, path: '/products' },
   { title: 'Revenue', icon: DollarSign, path: '/revenue' },
